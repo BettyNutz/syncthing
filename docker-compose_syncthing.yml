@@ -1,0 +1,24 @@
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Asia/Singapore
+    volumes:
+      - /home/dockeruser/syncthing/config/:/config
+      - /home/dockeruser/Downloads/complete:/config/syncthing_stuff_for_dler
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+    networks:
+      - p2p_net
+    userns_mode: "shared_ns"
+
+networks:
+  p2p_net:
+    external: true
